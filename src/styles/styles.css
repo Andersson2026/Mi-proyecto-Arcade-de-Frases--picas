@@ -1,0 +1,316 @@
+:root {
+  --bg-dark: #070114;
+  --cabinet-bg: #120428;
+  --panel-bg: #1b0938;
+  --neon-pink: #ff007f;
+  --neon-cyan: #00f0ff;
+  --neon-yellow: #ffe600;
+  --neon-green: #39ff14;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #1f0842 0%, var(--bg-dark) 80%);
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  margin: 0;
+  padding: 20px 12px;
+  min-height: 100vh;
+}
+
+/* Líneas de monitor CRT */
+.crt-scanlines {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.22) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Carcasa Arcade */
+.arcade-cabinet {
+  max-width: 1240px;
+  margin: 0 auto;
+  background: var(--cabinet-bg);
+  border: 4px solid var(--neon-pink);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(255, 0, 127, 0.35), inset 0 0 20px rgba(0, 240, 255, 0.15);
+  overflow: hidden;
+}
+
+/* Marquesina Superior */
+.arcade-marquee {
+  background: linear-gradient(90deg, #240046, #3c096c, #240046);
+  border-bottom: 4px solid var(--neon-yellow);
+  padding: 18px 15px;
+  text-align: center;
+}
+
+.marquee-lights {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.marquee-lights span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--neon-yellow);
+  box-shadow: 0 0 10px var(--neon-yellow);
+}
+
+h1, h2 {
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+h1 {
+  color: var(--neon-yellow);
+  text-shadow: 3px 3px var(--neon-pink), 0 0 15px rgba(255, 230, 0, 0.6);
+  font-size: clamp(1.1rem, 2.5vw, 1.75rem);
+  line-height: 1.4;
+}
+
+.marquee-subtitle {
+  margin: 8px 0 0;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  font-size: 20px;
+}
+
+/* Barra HUD */
+.arcade-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #090218;
+  padding: 10px 24px;
+  border-bottom: 2px solid var(--neon-cyan);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.72rem;
+}
+
+.hud-item strong {
+  color: var(--neon-green);
+}
+
+.blink {
+  color: var(--neon-yellow);
+  animation: blinker 1.2s step-start infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0.2; }
+}
+
+/* Pantalla principal */
+.arcade-screen {
+  padding: 24px;
+}
+
+.arcade-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .arcade-grid { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 3px solid var(--neon-cyan);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+.panel-top {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
+}
+
+h2 {
+  font-size: 0.92rem;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.cyan-title { color: var(--neon-cyan); }
+.yellow-title { color: var(--neon-yellow); }
+
+/* Formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 2px dashed rgba(0, 240, 255, 0.4);
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 550px) {
+  .form-row { flex-direction: column; }
+}
+
+input, select {
+  background: #0b021d;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-size: 21px;
+  padding: 9px 12px;
+  width: 100%;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 8px rgba(255, 230, 0, 0.5);
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.15s;
+}
+
+button:hover { filter: brightness(1.12); }
+button:active { transform: scale(0.96); }
+
+.btn-add {
+  background: var(--neon-pink);
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 13px;
+  box-shadow: 0 4px 0 #99004d;
+}
+
+.btn-vote {
+  background: var(--neon-green);
+  color: #000;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  padding: 10px 14px;
+  box-shadow: 0 4px 0 #1e8f0a;
+  white-space: nowrap;
+}
+
+/* Tarjetas de Frases */
+.scroll-list {
+  max-height: 540px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.frase-card {
+  background: rgba(7, 1, 20, 0.65);
+  border-left: 4px solid var(--neon-cyan);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.frase-texto {
+  margin: 0 0 6px;
+  font-size: 23px;
+}
+
+.frase-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 18px;
+}
+
+.autor-nombre { color: var(--neon-cyan); }
+
+.badge {
+  font-size: 15px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge-videojuegos { background: #7b2cbf; color: #fff; }
+.badge-peliculas { background: #d90429; color: #fff; }
+.badge-memes { background: #ff9f1c; color: #000; }
+
+/* Top 10 Leaderboard */
+.top-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 10px;
+}
+
+.podio-1 {
+  background: rgba(255, 230, 0, 0.12);
+  border-left: 4px solid var(--neon-yellow);
+}
+
+.top-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-info small {
+  color: #bbb;
+  display: block;
+}
+
+.rank-num {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.85rem;
+  color: var(--neon-yellow);
+  min-width: 44px;
+}
+
+.score {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.78rem;
+  color: var(--neon-green);
+  white-space: nowrap;
+}
+
+/* Pie de máquina */
+.arcade-footer {
+  background: #090218;
+  border-top: 2px solid var(--neon-pink);
+  text-align: center;
+  padding: 10px;
+  font-size: 17px;
+  color: #aaa;
+  letter-spacing: 2px;
+}
