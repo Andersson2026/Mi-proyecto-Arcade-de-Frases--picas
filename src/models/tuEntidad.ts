@@ -44,6 +44,21 @@ export class FraseModel {
     guardarEnStorage();
   }
 
+  async actualizar(id: number, texto: string, autor: string, categoria: Categoria): Promise<void> {
+    const db = await getDatabase();
+    db.run(
+      'UPDATE frases SET texto = ?, autor = ?, categoria = ? WHERE id = ?',
+      [texto.trim(), autor.trim(), categoria, id]
+    );
+    guardarEnStorage();
+  }
+
+  async eliminar(id: number): Promise<void> {
+    const db = await getDatabase();
+    db.run('DELETE FROM frases WHERE id = ?', [id]);
+    guardarEnStorage();
+  }
+
   private mapearResultados(res: any[]): Frase[] {
     if (!res.length) return [];
     const values = res[0].values;
