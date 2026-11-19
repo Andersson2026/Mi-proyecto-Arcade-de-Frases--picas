@@ -92,7 +92,7 @@ export class ArcadeView {
     // Renderizar Top 10 High Scores
     topEl.innerHTML = top10
       .map((f, idx) => {
-        const medallas = ['1', '2', '3'];
+        const medallas = ['#1', '#2', '#3'];
         const rango = medallas[idx] || `#${idx + 1}`;
         const clasePodio = idx < 3 ? `podio-${idx + 1}` : '';
 
