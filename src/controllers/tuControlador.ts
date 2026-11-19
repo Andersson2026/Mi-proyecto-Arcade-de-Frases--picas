@@ -16,6 +16,8 @@ export class ArcadeController {
     // Conectar eventos de la vista con métodos del controlador
     this.view.bindVotar((id) => this.manejarVoto(id));
     this.view.bindAgregar((texto, autor, cat) => this.manejarNuevaFrase(texto, autor, cat));
+    this.view.bindEditar((id) => this.manejarEdicion(id));
+    this.view.bindEliminar((id) => this.manejarEliminacion(id));
 
     await this.actualizarPantalla();
   }
@@ -27,6 +29,25 @@ export class ArcadeController {
 
   private async manejarNuevaFrase(texto: string, autor: string, categoria: Categoria): Promise<void> {
     await this.model.agregar(texto, autor, categoria);
+    await this.actualizarPantalla();
+  }
+
+  private async manejarEdicion(id: number): Promise<void> {
+    const frase = (await this.model.obtenerTodas()).find((item) => item.id === id);
+    if (!frase) return;
+
+    const cambios = this.view.solicitarEdicion(frase);
+    if (!cambios) return;
+
+    await this.model.actualizar(id, cambios.texto, cambios.autor, cambios.categoria);
+    await this.actualizarPantalla();
+  }
+
+  private async manejarEliminacion(id: number): Promise<void> {
+    const frase = (await this.model.obtenerTodas()).find((item) => item.id === id);
+    if (!frase || !this.view.confirmarEliminacion(frase)) return;
+
+    await this.model.eliminar(id);
     await this.actualizarPantalla();
   }
 
