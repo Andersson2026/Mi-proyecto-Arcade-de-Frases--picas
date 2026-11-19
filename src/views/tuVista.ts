@@ -32,8 +32,8 @@ export class ArcadeView {
                 required
               />
               <select id="select-categoria">
-                <option value="Videojuegos">🎮 Videojuegos</option>
-                <option value="Películas">🎬 Películas</option>
+                <option value="Videojuegos"> Videojuegos</option>
+                <option value="Películas"> Películas</option>
                 <option value="Memes"> Memes</option>
               </select>
             </div>
@@ -77,9 +77,13 @@ export class ArcadeView {
               <span class="autor-nombre">${this.escaparHTML(f.autor)}</span>
             </div>
           </div>
-          <button class="btn-vote" data-id="${f.id}" title="Votar por esta frase">
-            ▲ +1<br /><span>(${f.votos})</span>
-          </button>
+          <div class="frase-actions">
+            <button class="btn-vote" data-id="${f.id}" title="Votar por esta frase">
+              ▲ +1<br /><span>(${f.votos})</span>
+            </button>
+            <button class="btn-edit" data-id="${f.id}" aria-label="Editar frase">EDITAR</button>
+            <button class="btn-delete" data-id="${f.id}" aria-label="Eliminar frase">ELIMINAR</button>
+          </div>
         </article>
       `
       )
@@ -88,7 +92,7 @@ export class ArcadeView {
     // Renderizar Top 10 High Scores
     topEl.innerHTML = top10
       .map((f, idx) => {
-        const medallas = ['🥇', '🥈', '🥉'];
+        const medallas = ['1', '2', '3'];
         const rango = medallas[idx] || `#${idx + 1}`;
         const clasePodio = idx < 3 ? `podio-${idx + 1}` : '';
 
@@ -117,6 +121,51 @@ export class ArcadeView {
         handler(Number(btn.dataset.id));
       }
     });
+  }
+
+  bindEditar(handler: (id: number) => void): void {
+    const listaEl = document.getElementById('lista-frases');
+    listaEl?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest('.btn-edit') as HTMLButtonElement | null;
+      if (btn?.dataset.id) handler(Number(btn.dataset.id));
+    });
+  }
+
+  bindEliminar(handler: (id: number) => void): void {
+    const listaEl = document.getElementById('lista-frases');
+    listaEl?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest('.btn-delete') as HTMLButtonElement | null;
+      if (btn?.dataset.id) handler(Number(btn.dataset.id));
+    });
+  }
+
+  solicitarEdicion(frase: Frase): { texto: string; autor: string; categoria: Categoria } | null {
+    const texto = window.prompt('Editar frase:', frase.texto);
+    if (texto === null) return null;
+
+    const autor = window.prompt('Editar juego, película o meme:', frase.autor);
+    if (autor === null) return null;
+
+    const categoria = window.prompt(
+      'Categoría (Videojuegos, Películas o Memes):',
+      frase.categoria
+    );
+    if (categoria === null) return null;
+
+    const categorias: Categoria[] = ['Videojuegos', 'Películas', 'Memes'];
+    const categoriaValida = categorias.find((opcion) => opcion.toLowerCase() === categoria.trim().toLowerCase());
+    if (!texto.trim() || !autor.trim() || !categoriaValida) {
+      window.alert('Escribe una frase, un autor y una categoría válida.');
+      return null;
+    }
+
+    return { texto: texto.trim(), autor: autor.trim(), categoria: categoriaValida };
+  }
+
+  confirmarEliminacion(frase: Frase): boolean {
+    return window.confirm(`¿Eliminar la frase "${frase.texto}"?`);
   }
 
   bindAgregar(handler: (texto: string, autor: string, categoria: Categoria) => void): void {
