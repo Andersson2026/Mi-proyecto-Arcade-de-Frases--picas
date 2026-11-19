@@ -218,6 +218,30 @@ button:active { transform: scale(0.96); }
   white-space: nowrap;
 }
 
+.frase-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+}
+
+.btn-edit,
+.btn-delete {
+  color: #fff;
+  font-size: 0.55rem;
+  padding: 8px;
+}
+
+.btn-edit {
+  background: #5b2ca0;
+  box-shadow: 0 3px 0 #35165f;
+}
+
+.btn-delete {
+  background: #c62846;
+  box-shadow: 0 3px 0 #7d142a;
+}
+
 /* Tarjetas de Frases */
 .scroll-list {
   max-height: 540px;
